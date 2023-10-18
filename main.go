@@ -46,7 +46,7 @@ type Payload struct {
 
 type WorkingHour struct {
 	Id         string    `json:"id"`
-	PayloadId string    `json:"resource_id"`      // changed from _ResourceId to PayloadId
+	PayloadId string    `json:"resource_id"`      
 	Quantity   int64     `json:"quantity"`
 	StartTime  string    `json:"start_time"`
 	EndTime    string    `json:"end_time"`
@@ -54,14 +54,14 @@ type WorkingHour struct {
 
 type BlockHour struct {
 	Id         string    `json:"id"`
-	PayloadId string    `json:"resource_id"`      // changed from _ResourceId to PayloadId
+	PayloadId string    `json:"resource_id"`      
 	StartTime  string    `json:"start_time"`
 	EndTime    string    `json:"end_time"`
 }
 
 type Booking struct {
 	Id         string    `json:"id"`
-	PayloadId string    `json:"resource_id"`      // changed from _ResourceId to PayloadId
+	PayloadId string    `json:"resource_id"`     
 	Quantity   int64     `json:"quantity"`
 	StartTime  string    `json:"start_time"`
 	EndTime    string    `json:"end_time"`
@@ -98,7 +98,7 @@ func main() {
 	// Run server
 	http.ListenAndServe(":8000", router)
 
-	// - PayloadId [Required]: ID of the payload
+	// - payloadId [Required]: ID of the payload
 	// - date [Required]: date in YYYY-MM-DD format
 	// - duration [Required]: time duration in minutes (e.g., 30, 60, 120)
 	// - quantity [Required]:  capacity to reserve
@@ -144,6 +144,8 @@ func apiCall(endpoint string, payload map[string]interface{}) string {
 	body, err := ioutil.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
+	}else{
+		fmt.Println(endpoint, " API Call Successful")
 	}
 
 	return string(body)
@@ -159,12 +161,12 @@ func availabilityHandler(w http.ResponseWriter, r *http.Request) {
 	queryParams := r.URL.Query()
 
 	// get payloadId
-	payloadIdParam := queryParams.Get("payloadId")   // changed from _resourceIdParam to payloadIdParam
+	payloadIdParam := queryParams.Get("payloadId")  
 	dateParam := queryParams.Get("date")
 	durationParam := queryParams.Get("duration")
 	quantityParam := queryParams.Get("quantity")
 
-	if payloadIdParam == "" || dateParam == "" || durationParam == "" || quantityParam == "" {   // changed from _resourceIdParam to payloadIdParam
+	if payloadIdParam == "" || dateParam == "" || durationParam == "" || quantityParam == "" {   
 		fmt.Println("Missing Parameters")
 		return
 	}
